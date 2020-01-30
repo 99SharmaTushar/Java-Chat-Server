@@ -1,0 +1,36 @@
+import java.io.*;
+import java.net.*;
+class CClient
+{
+Socket s;
+String str="";
+CClient()
+{
+try
+{
+s=new Socket("localhost",2019);
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+while(true)
+{
+ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
+str=ois.readObject().toString();
+System.out.println("Friend: "+str+"\n");
+str="";
+
+ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());
+String str1=br.readLine();
+oos.writeObject(str1);
+}
+}
+catch(Exception ex)
+{
+System.out.println(ex.getMessage());
+}
+}
+
+
+public static void main(String ar[])
+{
+new CClient();
+}
+}
