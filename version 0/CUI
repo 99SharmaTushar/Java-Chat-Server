@@ -1,0 +1,44 @@
+import java.io.*;
+import java.net.*;
+class CServer
+{
+ServerSocket ss;
+Socket s;
+String str="";
+CServer()
+{
+
+try
+{
+ss=new ServerSocket(2019);//port number
+s=ss.accept();//connection is made btw serversocket and socket
+while(true)
+{
+
+ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());//socket is connected by getOutputStream (to be able to give output to another destination{via port} via socket)by which it sends the output to oos in object form..
+
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+String str1=br.readLine();
+oos.writeObject(str1);
+ObjectInputStream ois=new ObjectInputStream(s.getInputStream());//socket is connected by getInputStream (to be able to take input from another destination{via port} via socket)through which it sends the output to oos in object form..
+
+str=ois.readObject().toString();//object form gets read by readObject,and then the object is converted into string..
+
+System.out.println("Friend: "+str+"\n");
+str="";
+
+}
+}
+catch(Exception ex)
+{
+System.out.println(ex.getMessage());
+}
+
+}
+public static void main(String ar[])
+{
+new CServer();
+}
+
+
+}
